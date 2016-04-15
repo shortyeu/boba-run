@@ -1,0 +1,38 @@
+/Users/joannachen/.rbenv/versions/2.2.4/bin/ruby -r ./siteconf20160415-5564-w3i5yv.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling http11_parser.c
+compiling io_buffer.c
+io_buffer.c:119:10: warning: passing 'uint8_t *' (aka 'unsigned char *') to parameter of type 'const char *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  return rb_str_new(b->top, b->cur - b->top);
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/joannachen/.rbenv/versions/2.2.4/include/ruby-2.2.0/ruby/intern.h:796:20: note: expanded from macro 'rb_str_new'
+        rb_str_new_static((str), (len)) : \
+                          ^~~~~
+/Users/joannachen/.rbenv/versions/2.2.4/include/ruby-2.2.0/ruby/intern.h:727:37: note: passing argument to parameter here
+VALUE rb_str_new_static(const char *, long);
+                                    ^
+io_buffer.c:119:10: warning: passing 'uint8_t *' (aka 'unsigned char *') to parameter of type 'const char *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  return rb_str_new(b->top, b->cur - b->top);
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/joannachen/.rbenv/versions/2.2.4/include/ruby-2.2.0/ruby/intern.h:797:13: note: expanded from macro 'rb_str_new'
+        rb_str_new((str), (len));         \
+                   ^~~~~
+/Users/joannachen/.rbenv/versions/2.2.4/include/ruby-2.2.0/ruby/intern.h:706:29: note: passing argument to parameter here
+VALUE rb_str_new(const char*, long);
+                            ^
+2 warnings generated.
+compiling mini_ssl.c
+In file included from mini_ssl.c:3:
+/Users/joannachen/.rbenv/versions/2.2.4/include/ruby-2.2.0/ruby/backward/rubyio.h:2:2: warning: use "ruby/io.h" instead of "rubyio.h" [-W#warnings]
+#warning use "ruby/io.h" instead of "rubyio.h"
+ ^
+1 warning generated.
+compiling puma_http11.c
+linking shared-object puma/puma_http11.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 puma_http11.bundle ./.gem.20160415-5564-i250q6/puma
