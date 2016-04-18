@@ -13,9 +13,10 @@ end
 
 class API < Sinatra::Base
   get '/' do
-  	content_type :json
-  	@users = User.all
-  	{:result => [@users]}.to_json
+  	"HELLO"
+  	# content_type :json
+  	# @users = User.all
+  	# {:result => [@users]}.to_json
   end
 
   get '/sushi.json' do
