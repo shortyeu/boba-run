@@ -1,0 +1,99 @@
+/Users/joannachen/.rbenv/versions/2.2.4/bin/ruby -r ./siteconf20160416-12504-h6kuj2.rb extconf.rb
+checking for main() in -lc... yes
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling parser.c
+parser.rl:142:7: warning: implicit declaration of function 'thin_http_parser_has_error' is invalid in C99 [-Wimplicit-function-declaration]
+  if (thin_http_parser_has_error(parser) ) {
+      ^
+parser.rl:144:14: warning: implicit declaration of function 'thin_http_parser_is_finished' is invalid in C99 [-Wimplicit-function-declaration]
+  } else if (thin_http_parser_is_finished(parser) ) {
+             ^
+2 warnings generated.
+compiling thin.c
+thin.c:82:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(flen, FIELD_NAME);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:161:1: note: expanded from here
+MAX_FIELD_NAME_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:83:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(vlen, FIELD_VALUE);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:161:1: note: expanded from here
+MAX_FIELD_VALUE_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:114:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(length, REQUEST_URI);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:3:1: note: expanded from here
+MAX_REQUEST_URI_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:125:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(length, FRAGMENT);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:3:1: note: expanded from here
+MAX_FRAGMENT_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~
+thin.c:136:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(length, REQUEST_PATH);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:3:1: note: expanded from here
+MAX_REQUEST_PATH_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:148:3: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  VALIDATE_MAX_LENGTH(length, QUERY_STRING);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:3:1: note: expanded from here
+MAX_QUERY_STRING_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:243:3: warning: implicit declaration of function 'thin_http_parser_init' is invalid in C99 [-Wimplicit-function-declaration]
+  thin_http_parser_init(hp);
+  ^
+thin.c:295:3: warning: implicit declaration of function 'thin_http_parser_finish' is invalid in C99 [-Wimplicit-function-declaration]
+  thin_http_parser_finish(http);
+  ^
+thin.c:297:10: warning: implicit declaration of function 'thin_http_parser_is_finished' is invalid in C99 [-Wimplicit-function-declaration]
+  return thin_http_parser_is_finished(http) ? Qtrue : Qfalse;
+         ^
+thin.c:335:5: warning: implicit declaration of function 'thin_http_parser_execute' is invalid in C99 [-Wimplicit-function-declaration]
+    thin_http_parser_execute(http, dptr, dlen, from);
+    ^
+thin.c:337:5: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+    VALIDATE_MAX_LENGTH(http_parser_nread(http), HEADER);
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thin.c:50:93: note: expanded from macro 'VALIDATE_MAX_LENGTH'
+#define VALIDATE_MAX_LENGTH(len, N) if(len > MAX_##N##_LENGTH) { rb_raise(eHttpParserError, MAX_##N##_LENGTH_ERR); }
+                                                                                            ^~~~~~~~~~~~~~~~~~~~
+<scratch space>:3:1: note: expanded from here
+MAX_HEADER_LENGTH_ERR
+^~~~~~~~~~~~~~~~~~~~~
+thin.c:339:8: warning: implicit declaration of function 'thin_http_parser_has_error' is invalid in C99 [-Wimplicit-function-declaration]
+    if(thin_http_parser_has_error(http)) {
+       ^
+12 warnings generated.
+linking shared-object thin_parser.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 thin_parser.bundle ./.gem.20160416-12504-9isa49

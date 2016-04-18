@@ -2,6 +2,12 @@ source 'https://rubygems.org'
 ruby '2.2.4'
 
 gem 'cowsay'
+gem 'unicorn'
+gem 'sinatra'
+gem 'json'
+gem 'thin', '1.2.7'
+gem "sinatra-activerecord"
+gem "rake"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
