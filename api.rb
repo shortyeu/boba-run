@@ -12,13 +12,17 @@ before do
 end
 
 class API < Sinatra::Base
+  get '/' do
+  	content_type :json
+  	@users = User.all
+  	{:result => [@users]}.to_json
+  end
+
   get '/sushi.json' do
     content_type :json
     
     {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
   end
-
-
 
   def widget_params
       params.require(:widget).permit(:name, :description, :stock)
