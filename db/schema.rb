@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418013936) do
+ActiveRecord::Schema.define(version: 20160426224124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,24 @@ ActiveRecord::Schema.define(version: 20160418013936) do
   create_table "models", force: :cascade do |t|
     t.string "name", limit: 255
   end
+
+  create_table "room_members", force: :cascade do |t|
+    t.string  "room_id"
+    t.string  "room_members_id"
+    t.string  "drink"
+    t.decimal "price"
+    t.boolean "drink_purchased"
+    t.boolean "runner_paid"
+  end
+
+  add_index "room_members", ["room_id"], name: "index_room_members_on_room_id", using: :btree
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "room_id"
+    t.string "runner_id"
+  end
+
+  add_index "rooms", ["room_id"], name: "index_rooms_on_room_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "venmo_id"
