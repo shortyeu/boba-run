@@ -7,8 +7,6 @@ This is the web API backend for our app, boba-run.
 Make sure you have Ruby installed.  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 ```sh
-$ git clone git@github.com:heroku/ruby-getting-started.git
-$ cd ruby-getting-started
 $ bundle install
 $ bundle exec rake db:create db:migrate
 $ heroku local
@@ -25,8 +23,7 @@ $ heroku run rake db:migrate
 $ heroku open
 ```
 
-or
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+## Collborators
+Joanna Chen, Louis Troung, Jessica Pham, Nick Eu
 
 
