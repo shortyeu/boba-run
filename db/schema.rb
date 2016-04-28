@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426224124) do
+ActiveRecord::Schema.define(version: 20160427224304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,10 +24,6 @@ ActiveRecord::Schema.define(version: 20160426224124) do
   end
 
   add_index "friends", ["user_id"], name: "index_friends_on_user_id", using: :btree
-
-  create_table "models", force: :cascade do |t|
-    t.string "name", limit: 255
-  end
 
   create_table "room_members", force: :cascade do |t|
     t.string  "room_id"
@@ -56,12 +52,6 @@ ActiveRecord::Schema.define(version: 20160426224124) do
     t.datetime "updated_at"
   end
 
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "stock"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

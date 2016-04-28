@@ -18,18 +18,17 @@ class API < Sinatra::Base
   	# {:result => [@users]}.to_json
   end
 
-  get '/sushi.json' do
-    content_type :json
-    
-    {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
-  end
   # ================
   # USER
   # ================
+  get '/user/show_all' do 
+    {:message => User.all}.to_json
+  end
+
   post '/login' do
   	content_type :json
   	@result_user = User.find_by username: params['username']
-  	if @result_user.password === params['password'] 
+  	if @result_user and @result_user.password === params['password'] 
   		{:id => @result_user.id, :message => "success"}.to_json
   	else
   		{:message => "failure"}.to_json
@@ -37,7 +36,7 @@ class API < Sinatra::Base
 
   end
 
-  post '/new_user' do
+  post '/user/create' do
     @results = User.find_by username: params['username']
     if @results 
         {:error => "true", :message => "Username already exists."}.to_json
@@ -50,41 +49,58 @@ class API < Sinatra::Base
     end
   end
 
-  post '/edit_user/venmo_id' do
+  post '/user/edit/venmo_id' do
 
   end
 
-  post '/edit_user' do
+  post '/user/edit' do
   	@results = User.find_by username: params['username']
   	@results.password = params['password']
   	@results.venmo_id = params['venmo_id']
   	@results.email = params['email']
   	@results.save
-    {:result => [@results]}.to_json
+    {:result => [@results], :message => "success"}.to_json
   end
 
-  post '/get_user/username' do
+  post '/user/show/username' do
   	content_type :json
     @results = User.all.where(username: params['username'])
-  	{:result => [@results]}.to_json
+  	{:result => [@results], :message => "success"}.to_json
   end
 
-  post  '/get_user/venmo_id' do
+  post  '/user/show/venmo_id' do
   	content_type :json
   	@results = User.find_by venmo_id: params['venmo_id']
-  	{:result => [@results]}.to_json
+  	{:result => [@results], :message => "success"}.to_json
   end
 
-  post  '/get_user/id' do
+  post  '/user/show/id' do
   	content_type :json
   	@results = User.find_by id: params['id']
-  	{:result => [@results]}.to_json
+  	{:result => [@results], :message => "success"}.to_json
+  end
+
+  post '/user/delete' do 
+    @user = User.find_by username: params['username']
+    if @user
+      User.delete(@user)
+      {:message => "success"}.to_json
+    else
+      {:message => "failure"}.to_json
+    end
+
+
+    
   end
 
   # ================
   # FRIENDS
   # ================
-  post '/get_friends' do
+  post '/friend/show_all' do
+    {:results => Friend.all}.to_json
+  end
+
+  post '/friend/show' do
   	content_type :json
   	@results = Friend.all.where(user_id: params['id'])
   	@ids = Array.new
@@ -92,10 +108,10 @@ class API < Sinatra::Base
   	   @ids.push(id.friend_id)
   	end
   	@friends = User.all.where(id: @ids)
-  	{:results => [@friends]}.to_json
+  	{:results => [@friends], :message => "success"}.to_json
   end
 
-  post '/add_friend' do
+  post '/friend/create' do
   	@friend = Friend.new
   	@friend.user_id = params['id']
   	@friend.friend_id = params['friend_id']
@@ -105,95 +121,145 @@ class API < Sinatra::Base
   	@friend_reciprocate.user_id = params['friend_id']
   	@friend_reciprocate.friend_id = params['id']
   	@friend_reciprocate.save
+
+    {:results => [@friend.user_id, @friend_reciprocate.user_id], :message => "success"}.to_json
+  end
+
+  post '/friend/delete' do
+    # takes in user_id and friend_id
+    @friend = Friend.all.where(user_id: params['id']).where(friend_id: params['friend_id'])
+    @friend_reciprocate = Friend.all.where(user_id: params['friend_id']).where(friend_id: params['id'])
+    Friend.delete(@friend)
+    Friend.delete(@friend_reciprocate)
+
+    {:message => "success"}.to_json
   end
 
   # ================
-  # DRINKS
+  # ROOMS
   # ================
-  get '/get_all' do
-
-  { :results => Room.all}.to_json
+  get '/room/show_all' do
+    { :results => Room.all}.to_json
   end
 
-  post '/create_room' do
-  # takes in runner id
-  @room = Room.new
-  @room.runner_id = params['runner_id']
+  post '/room/create' do
+    # takes in runner id
+    @room = Room.new
+    @room.runner_id = params['runner_id']
 
-  @count = Room.all.where(runner_id: params['runner_id']).count
-  @room.room_id = "#{params['runner_id']}_#{@count}"
+    @count = Room.all.where(runner_id: params['runner_id']).count
+    @room.room_id = "#{params['runner_id']}_#{@count}"
+    @room.save
 
-  @room.save
-
-  # returns the room number back to the client
-  { :results => "#{@room.room_id}", :message => "success" }.to_json
+    # returns the room number back to the client
+    { :results => "#{@room.room_id}", :message => "success" }.to_json
   end
 
-  post '/add_member_to_room' do
-  # takes in room number
-  # @room = Room.find_by(room_id: params['room_id'])
-  @room = Room.new
+  post '/room/delete' do
+    # takes in room id
+    # delete this room.
+    # go to room_member and delete all entries with this room number
 
-  # adds member id and drink entry to room table
+    @room = Room.find_by(room_id: params['room_id'])
+    Room.delete(@room)
+    RoomMember.delete_all(room_id: params['room_id'])
 
-  # returns success/ failure
+    { :message => "success"}.to_json
+
   end
 
-  post '/edit_room/add_member' do 
-  # this is after client has confirmed member joining
-
-  # takes in room number, and member id(s) to add
-  # assume room number is valid
-
-  # checks if member is already in the room
-  # if not, adds member_id to room
+  post '/room/show' do
+    # takes in a room number (id)
+    @room = Room.find_by(room_id: params['room_id'])
+    # returns runner_id
+    { :results => @room}.to_json
   end
 
-  post '/edit_room/add_drink' do
-  # takes in room number
-  # takes in member id (drink owner)
-  # takes in JSON of drink information
+  # ================
+  # MEMBERS
+  # ================
 
-  # returns success or failure to add
+  post '/room_member/create' do
+    # takes in room id
+    # member id
+    # drink
+    # price
+
+    @member = RoomMember.new
+    @member.room_id = params['room_id']
+    @member.room_members_id = params['member_id']
+
+    # adds member id and drink entry to room table
+    @member.drink = params['drink']
+    @member.price = params['price']
+
+    @member.drink_purchased = false
+    @member.runner_paid = false
+    @member.save
+
+    # returns success/ failure
+    { :message => "success"}.to_json
   end
 
-  post '/edit_room/edit_drink' do 
-  # ?? not sure of use case for this, but
-  # if a member needs to edit his/her drink
+  post '/room_member/edit/price' do
+  # takes in roomid, memberid, price
 
-  # takes in room number 
-  # takes in member id (drink owner)
-  # takes in JSON of drink information
+    @drink = RoomMember.all.where(room_members_id: params['member_id']).where(room_id: params['room_id'])
+    @drink.price = params['price']
+    @drink.save
 
-  # return success or failure
+    { :message => "success" }
+
+  end  
+
+  post '/room_member/edit/drink' do
+    # takes in room number
+    # takes in member id (drink owner)
+    # takes in JSON of drink information
+    @drink = RoomMember.all.where(room_members_id: params['member_id']).where(room_id: params['room_id'])
+    @drink.drink = params['drink']
+
+    # returns success or failure to add
+    { :message => "success"}.to_json
   end
 
-  post '/edit_room/confirm_payment' do
+  post '/room_member/edit/runner_paid' do
   # takes in room number
   # takes in member id (drink owner)
   # update runner_paid field
 
-  # return success
+    @drink = RoomMember.all.where(room_members_id: params['member_id']).where(room_id: params['room_id'])
+    @drink.runner_paid = params['runner_paid']
+
+    # returns success or failure to add
+    { :message => "success"}.to_json
   end
 
-  post '/get_room_info' do
-  # takes in a room number (id)
-
-  # return all room info
+  post '/room_member/delete/member' do
+    # takes in room id and member id
+    @member = RoomMember.all.where(room_id: params['room_id']).where(room_members_id: params['member_id'])
+    RoomMember.delete(@member)
+    {:message => "success"}.to_json
   end
 
-  post '/get_room_info/runner_id' do
-
+  get '/room_member/show_all' do
+    { :results => RoomMember.all}.to_json
   end
 
 
   # ================
-  # PRICES
+  # MENU
   # ================
   # Have some way of retrieving cost from our database of restaurants?
+  # have restaurant id, drink name, price of base, price of topping
+  post '/menu/create/drink' do
+    # add a menu item to a restaurant
+  end
 
-  # restaurant id?
-  # 
+  post '/menu/edit/drink' do
+    # edit menu item
+  end
+
 end
 
 
