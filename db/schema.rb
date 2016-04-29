@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427224304) do
+ActiveRecord::Schema.define(version: 20160429193026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20160427224304) do
   end
 
   add_index "friends", ["user_id"], name: "index_friends_on_user_id", using: :btree
+
+  create_table "menus", force: :cascade do |t|
+    t.string   "yelp_id"
+    t.string   "category"
+    t.string   "name"
+    t.decimal  "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "room_members", force: :cascade do |t|
     t.string  "room_id"

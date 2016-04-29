@@ -12,10 +12,9 @@ end
 
 class API < Sinatra::Base
   get '/' do
-  	"HELLO"
-  	# content_type :json
-  	# @users = User.all
-  	# {:result => [@users]}.to_json
+  	content_type :json
+  	@users = User.all
+  	{:message => "HELLO, THIS IS BOBA-RUN BACKEND", :result => @users}.to_json
   end
 
   # ================
