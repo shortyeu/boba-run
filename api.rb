@@ -259,6 +259,22 @@ class API < Sinatra::Base
     # edit menu item
   end
 
+  post '/menu/show' do
+    # takes in yelp id
+    # returns menu items with that ID
+
+    {:results => Menu.all.where(yelp_id: params['yelp_id'])}.to_json
+  end
+
+  post '/menu/show/category' do
+    # takes in yelp_id
+    # takes in category
+
+    # returns menu items with that ID and category
+    {:results => Menu.all.where(yelp_id: params['yelp_id']).where(category: params['category'])}.to_json
+
+
+  end
 end
 
 

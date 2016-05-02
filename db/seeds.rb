@@ -303,6 +303,11 @@ Menu.find_or_create_by(yelp_id: "CoCo Westwood",
 	name: "Milk w/ Red Bean & Pearl",
 	price: 3.50)
 
+Conversion.find_or_create_by(yelp_id: "CoCo Westwood", 
+	medium_to_large: 0.75, 
+	tax_included: true,
+	tax_rate: 0.09)
+
 
 
 

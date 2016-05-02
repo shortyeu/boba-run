@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429193026) do
+ActiveRecord::Schema.define(version: 20160430000136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conversions", force: :cascade do |t|
+    t.string   "yelp_id"
+    t.decimal  "medium_to_large"
+    t.boolean  "tax_included"
+    t.decimal  "tax_rate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "friends", force: :cascade do |t|
     t.string   "user_id"
