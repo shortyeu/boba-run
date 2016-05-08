@@ -5,6 +5,31 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+User.find_or_create_by(username: "HappyLou",
+			password: "poop",
+			email: "happy@lou.com")
+
+User.find_or_create_by(username: "Unknown2Ray",
+			password: "noob",
+			email: "raymond@classy.com")
+
+User.find_or_create_by(username: "TheVK",
+			password: "vincentric",
+			email: "onetrueVK@world.com")
+
+
+Friend.find_or_create_by(user_id: 1,
+			friend_id: 2)
+
+Friend.find_or_create_by(user_id: 2,
+			friend_id: 1)
+
+Friend.find_or_create_by(user_id: 1,
+			friend_id: 3)
+
+Friend.find_or_create_by(user_id: 3,
+			friend_id: 1)
+
 
 Menu.find_or_create_by(yelp_id: "CoCo Westwood", 
 			category: "Toppings", 
