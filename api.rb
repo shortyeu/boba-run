@@ -40,6 +40,8 @@ class API < Sinatra::Base
         {:error => "true", :message => "Username already exists."}.to_json
     else
     	@user = User.new
+      @user.first_name = params['first_name']
+      @user.first_name = params['last_name']
     	@user.username = params['username']
     	@user.password = params['password']
       @user.email = params['email']
@@ -48,17 +50,10 @@ class API < Sinatra::Base
     end
   end
 
-  post '/user/edit/venmo_id' do
-
-  end
-
   post '/user/edit' do
   	@results = User.find_by username: params['username']
     if params['password']
   	   @results.password = params['password']
-    end
-    if params['venmo_id']
-  	   @results.venmo_id = params['venmo_id']
     end
   	if params['email']
        @results.email = params['email']
@@ -70,12 +65,6 @@ class API < Sinatra::Base
   post '/user/show/username' do
   	content_type :json
     @results = User.find_by(username: params['username'])
-  	{:error => "false", :result => [@results], :message => "success"}.to_json
-  end
-
-  post  '/user/show/venmo_id' do
-  	content_type :json
-  	@results = User.find_by venmo_id: params['venmo_id']
   	{:error => "false", :result => [@results], :message => "success"}.to_json
   end
 
@@ -94,8 +83,6 @@ class API < Sinatra::Base
       {:error => "true", :message => "failure"}.to_json
     end
 
-
-    
   end
 
   # ================
@@ -186,6 +173,7 @@ class API < Sinatra::Base
 
     @count = Room.all.where(runner_id: params['runner_id']).count
     @room.room_id = "#{params['runner_id']}_#{@count}"
+    @room.room_name = params['room_name']
     @room.save
 
     # returns the room number back to the client
