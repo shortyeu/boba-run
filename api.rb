@@ -160,6 +160,60 @@ class API < Sinatra::Base
   end
 
   # ================
+  # GROUPS
+  # ================
+  post '/group/create' do
+    # create new group using owner's username
+    @group = Group.new
+    @group.owner_username = params['owner_username']
+
+    @count = Group.all.where(owner_username: params['owner_username']).count
+    @group.g_id = "#{params['owner_username']}_#{@count}"
+
+    @group.group_name = params['name']
+    @group.save
+    {:error => "false", :result => [@group], :message => "success"}.to_json
+  end
+
+  post '/group/show/username' do
+    # retrieve all groups with given username
+    @groups = Group.all.where(owner_username: params['owner_username'])
+    {:error => "false", :result => @groups}.to_json
+  end
+
+  get '/group/show_all' do
+    # dump all groups created
+    {:error => "false", :result => Group.all}.to_json
+  end
+
+  post '/group_member/create' do
+    # given g_id, add member
+    @group_member = GroupMember.new
+    @group_member.g_id = params['g_id']
+    @group_member.member_username = params['username']
+    @group_member.save
+
+    {:error => "false", :message => "success"}.to_json
+  end
+
+  post '/group_member/show/g_id' do
+    # return all members with given g_id
+    # add a check to see if g_id exists?
+    @members = GroupMember.all.where(g_id: params['g_id'])
+    @usernames = Array.new
+    @members.each do |m|
+      @usernames.push(m.member_username)
+    end
+
+    {:error => "false", :result => User.all.where(username: @usernames)}.to_json
+
+  end
+
+  post '/group_member/show_all' do
+    {:error => "false", :result => GroupMember.all}.to_json
+  end
+
+  # ================
   # ROOMS
   # ================
   get '/room/show_all' do
@@ -200,8 +254,47 @@ class API < Sinatra::Base
     {:error => "false", :result => @room}.to_json
   end
 
+  post '/room/show/member' do 
+    # get all rooms that contain a particular user, given the user's id
+    # get all rooms where user is the runner
+    @runner_rooms = Room.all.where(runner_id: params['id'])
+
+    # get all rooms where the user is a member
+    @member_rooms = RoomMember.all.where(room_members_id: params['id'])
+
+    @room_ids = Array.new
+    @member_rooms.each do |m|
+      @room_ids.push(m.room_id)
+    end
+
+    @total_rooms = @runner_rooms.push(*(Room.all.where(room_id: @room_ids)))
+
+    {:error => "false", :result => @total_rooms}.to_json
+  end
+
+  post '/room/show/member/username' do 
+    # get all rooms that contain a particular user, given the user's id
+    # get all rooms where user is the runner
+    @user = User.find_by(username: params['username'])
+
+    @runner_rooms = Room.all.where(runner_id: @user.id)
+
+    # get all rooms where the user is a member
+    @member_rooms = RoomMember.all.where(room_members_id: @user.id)
+
+    @room_ids = Array.new
+    @member_rooms.each do |m|
+      @room_ids.push(m.room_id)
+    end
+
+    @total_rooms = @runner_rooms.push(*(Room.all.where(room_id: @room_ids)))
+
+    {:error => "false", :result => @total_rooms}.to_json
+
+  end
+
   # ================
-  # MEMBERS
+  # ROOM MEMBERS
   # ================
 
   post '/room_member/create' do

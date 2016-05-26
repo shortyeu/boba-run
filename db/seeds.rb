@@ -6,16 +6,32 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.find_or_create_by(username: "HappyLou",
+			first_name: "Louis",
+			last_name: "Troung",
 			password: "poop",
-			email: "happy@lou.com")
+			email: "happy@lou.com",
+			image: "peace")
 
 User.find_or_create_by(username: "Unknown2Ray",
+			first_name: "Raymond",
+			last_name: "Glassey",
 			password: "noob",
-			email: "raymond@classy.com")
+			email: "raymond@classy.com",
+			image: "love")
 
 User.find_or_create_by(username: "TheVK",
+			first_name: "Vincent",
+			last_name: "Kong",
 			password: "vincentric",
-			email: "onetrueVK@world.com")
+			email: "onetrueVK@world.com",
+			image: "patience")
+
+User.find_or_create_by(username: "BotOuyand",
+			first_name: "Lawrence",
+			last_name: "Ouyang",
+			password: "test123",
+			email: "lawrence@robots.com",
+			image: "selfcontrol")
 
 
 Friend.find_or_create_by(user_id: 1,
@@ -30,7 +46,49 @@ Friend.find_or_create_by(user_id: 1,
 Friend.find_or_create_by(user_id: 3,
 			friend_id: 1)
 
+Friend.find_or_create_by(user_id: 1,
+			friend_id: 4)
 
+Friend.find_or_create_by(user_id: 4,
+			friend_id: 1)
+
+
+Group.find_or_create_by(owner_username: "HappyLou",
+						group_name: "Cool Kidz",
+						image: "joy",
+						g_id: "HappyLou_0")
+
+Group.find_or_create_by(owner_username: "HappyLou",
+						)
+
+GroupMember.find_or_create_by(g_id: "HappyLou_0",
+							member_username: "Unknown2Ray")
+
+GroupMember.find_or_create_by(g_id: "HappyLou_0",
+							member_username: "TheVK")
+
+Room.find_or_create_by(room_id: "HappyLou_0",
+						runner_id: 1,
+						room_name: "My First Boba Run!")
+
+RoomMember.find_or_create_by(room_id: "HappyLou_0",
+							room_members_id: 2,
+							drink: "Rose Milk Tea, less ice, less sugar",
+							price: 3.5,
+							runner_paid: false)
+
+Room.find_or_create_by(room_id: "TheVK_0",
+						runner_id: 3,
+						room_name: "CoCo Westwood Boba Fun")
+
+RoomMember.find_or_create_by(room_id: "TheVK_0",
+							room_members_id: 1,
+							drink: "Rose Milk Tea, less ice, less sugar",
+							price: 3.5,
+							runner_paid: false)
+
+
+# CoCo Menu
 Menu.find_or_create_by(yelp_id: "CoCo Westwood", 
 			category: "Toppings", 
 			name: "Pearl",
