@@ -45,6 +45,7 @@ class API < Sinatra::Base
     	@user.username = params['username']
     	@user.password = params['password']
       @user.email = params['email']
+      @user.number = params['number']
     	@user.save
       {:error => "false", :result => [@user], :message => "success"}.to_json
     end
@@ -73,6 +74,11 @@ class API < Sinatra::Base
   	@results = User.find_by id: params['id']
   	{:error => "false", :result => [@results], :message => "success"}.to_json
   end
+  
+  post '/user/show/number' do
+    content_type :json
+    @results = User.find_by (username: params['username']).select("numbers")
+    
 
   post '/user/delete' do 
     @user = User.find_by username: params['username']
@@ -84,6 +90,16 @@ class API < Sinatra::Base
     end
 
   end
+  post '/user/show/numbers' do
+    @users = User.all.where(username: params['username'])
+
+    @numbers = Array.new
+    @users.each do |m|
+    @numbers.push(m.number)
+
+    {:error => "false", :result => @numbers.select("numbers") :message => "success"}.to_json
+  end
+
 
   # ================
   # FRIENDS
